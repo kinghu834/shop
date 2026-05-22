@@ -9,7 +9,7 @@ db = SQLAlchemy(app)
 # 定义数据库表格数据类型
 class Shop(db.Model):
     id = db.Column(db.Integer,primary_key = True,autoincrement = True)
-    product_name = db.Column(db.String(10))
+    product_name = db.Column(db.String(100))
     price = db.Column(db.Numeric(10,2))
     created_at = db.Column(db.DateTime,default = datetime.now)
 with app.app_context():
@@ -18,13 +18,12 @@ with app.app_context():
 # 添加数据
 @app.route("/shop",methods = ["POST"])
 def add_shop() :
-    users = [
-    Shop(product_name = "纸巾",price = 100),
-    Shop(product_name = "鞋子",price = 200),
-    Shop(product_name = "手机",price = 300),
-    Shop(product_name = "自行车",price = 400)
-    ]
-    db.session.add_all(users)
+    data = request.get_json()
+    user = Shop(
+         product_name = data["product_name"],
+         price = data["price"]
+    )
+    db.session.add(user)
     db.session.commit()
     return "数据添加成功"
 # 查询
