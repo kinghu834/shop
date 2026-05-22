@@ -40,6 +40,18 @@ def get_message(id) :
         }
     else :
         return "该商品不存在"
+# 查询商品列表
+@app.route("/shop",methods = ["GET"])
+def get_value() :
+     All = Shop.query.all()
+     return [
+          {
+               "name" : p.product_name,
+               "price" : p.price,
+               "created_at" : p.created_at
+          } for p in All
+     ]
+    #  从数据库 shop 表中查出所有商品，返回一个列表
 # 修改商品价格
 @app.route("/shop/<int:id>",methods = ["PUT"])
 def update_shop(id) :
