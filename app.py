@@ -3,7 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime  # 添加这一行
 # 第一步，创建首页
 app = Flask(__name__)
+# 这是Flask应用的配置项设置，用于告诉Flask-SQLAlchemy扩展"数据库连接字符串存在哪里"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost:3306/shop'
+# 关闭SQLAlchemy的对象修改追踪功能，不占内存，性能更好
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 # 定义数据库表格数据类型
@@ -28,13 +30,13 @@ def add_shop() :
     return "数据添加成功"
 # 查询
 @app.route("/shop/<int:id>",methods = ["GET"])
-def get_massage(id) :
-    massage = Shop.query.get(id)
-    if massage :
+def get_message(id) :
+    message = Shop.query.get(id)
+    if message :
         return {
-            "name" : massage.product_name,
-            "price" : massage.price,
-            "created_at" : massage.created_at
+            "name" : message.product_name,
+            "price" : message.price,
+            "created_at" : message.created_at
         }
     else :
         return "该商品不存在"
